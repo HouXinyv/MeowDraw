@@ -15,9 +15,11 @@ import com.miao.ai_gen_web.exception.ThrowUtils;
 import com.miao.ai_gen_web.model.dto.app.*;
 import com.miao.ai_gen_web.model.enums.CodeGenTypeEnum;
 import com.miao.ai_gen_web.model.vo.AppVO;
+import com.miao.ai_gen_web.service.ChatHistoryService;
 import com.miao.ai_gen_web.service.UserService;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
+import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
@@ -44,8 +46,11 @@ public class AppController {
     @Autowired
     private AppService appService;
 
-    @Autowired
+    @Autowired // 优先按照类型
     private UserService userService;
+
+    @Resource // 优先按照名称
+    private ChatHistoryService chatHistoryService;
     /**
      * 创建应用
      *

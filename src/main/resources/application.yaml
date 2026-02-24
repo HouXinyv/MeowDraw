@@ -1,4 +1,12 @@
 spring:
+  # redis
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      user: default
+      password: 123456
+      ttl: 3600
   application:
     name: ai_gen_web_backend
   # mysql
@@ -7,6 +15,10 @@ spring:
     url: jdbc:mysql://localhost:3306/ai_gen_web
     username: root
     password: 123456
+  # session
+  session:
+    store-type: redis
+    timeout: 2592000
   profiles:
     active: local
 server:
