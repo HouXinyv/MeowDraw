@@ -1,13 +1,18 @@
 package com.miao.ai_gen_web.model.enums;
 
 import cn.hutool.core.util.ObjUtil;
+import com.miao.ai_gen_web.ai.AiCodeGeneratorService;
 import lombok.Getter;
 
+import java.util.function.Function;
+
 @Getter
-public enum CodeGenTypeEnum {
+public enum CodeGenTypeEnum{
 
     HTML("原生 HTML 模式", "html"),
-    MULTI_FILE("原生多文件模式", "multi_file");
+    MULTI_FILE("原生多文件模式", "multi_file"),
+    VUE_PROJECT("Vue 工程模式", "vue_project");
+
 
     private final String text;
     private final String value;

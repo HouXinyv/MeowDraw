@@ -24,7 +24,7 @@ public class HttpClientConfig {
         return RestClient.builder()
                 .requestFactory(
                         new JdkClientHttpRequestFactory(httpClient) {{
-                            setReadTimeout(Duration.ofSeconds(300)); // ⭐⭐⭐ 核心
+                            setReadTimeout(Duration.ofSeconds(900)); // ⭐⭐⭐ 核心
                         }}
                 )
                 .build();
