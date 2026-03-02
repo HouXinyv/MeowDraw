@@ -2,7 +2,7 @@ package com.miao.ai_gen_web.ai;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
-import com.miao.ai_gen_web.ai.tools.FileWriteTool;
+import com.miao.ai_gen_web.ai.tools.*;
 import com.miao.ai_gen_web.exception.BusinessException;
 import com.miao.ai_gen_web.exception.ErrorCode;
 import com.miao.ai_gen_web.model.enums.CodeGenTypeEnum;
@@ -26,7 +26,7 @@ import java.time.Duration;
 public class AiCodeGeneratorServiceFactory {
 
     @Resource
-    private ChatModel chatModel;
+    private ChatModel openAiChatModel;
 
     @Resource
     private StreamingChatModel openAiStreamingChatModel;
@@ -39,6 +39,9 @@ public class AiCodeGeneratorServiceFactory {
 
     @Autowired
     private ChatHistoryService chatHistoryService;
+
+    @Resource
+    private ToolManager toolManager;
 
     /**
      * AI 服务实例缓存
@@ -100,15 +103,19 @@ public class AiCodeGeneratorServiceFactory {
             // Vue 项目生成使用推理模型
             case VUE_PROJECT -> AiServices.builder(AiCodeGeneratorService.class)
                     .streamingChatModel(reasoningStreamingChatModel)
-                    .chatMemoryProvider(memoryId -> chatMemory) //java8之后的lambada表达式，箭头前是参数，箭头后是返回值，当前这个是一个常数函数
-                    .tools(new FileWriteTool())
+                    .chatMemoryProvider(memoryId -> chatMemory)
+                    .tools(
+                            toolManager.getAllTools()
+                    )
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
-                    )) // 出现幻觉的时候，工具不存在的情况时，做什么
+                    ))// 出现幻觉的时候，工具不存在的情况时，做什么
                     .build();
+
+
             // HTML 和多文件生成使用默认模型
             case HTML, MULTI_FILE -> AiServices.builder(AiCodeGeneratorService.class)
-                    .chatModel(chatModel)
+                    .chatModel(openAiChatModel)
                     .streamingChatModel(openAiStreamingChatModel)
                     .chatMemory(chatMemory)
                     .build();
