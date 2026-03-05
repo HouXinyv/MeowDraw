@@ -24,6 +24,7 @@ import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.*;
@@ -255,6 +256,31 @@ public class AppController {
         // 获取封装类
         return ResultUtils.success(appService.getAppVO(app));
     }
+
+    @PostMapping("/good/list/page/vo")
+    @Cacheable(
+            value = "good_app_page",
+            key = "T(com.miao.ai_gen_web.utils.CacheKeyUtils).generateKey(#appQueryRequest)",
+            condition = "#appQueryRequest.pageNum <= 10"
+    )
+    public BaseResponse<Page<AppVO>> listGoodAppVOByPage(@RequestBody AppQueryRequest appQueryRequest) {
+        ThrowUtils.throwIf(appQueryRequest == null, ErrorCode.PARAMS_ERROR);
+        // 限制每页最多 20 个
+        long pageSize = appQueryRequest.getPageSize();
+        ThrowUtils.throwIf(pageSize > 20, ErrorCode.PARAMS_ERROR, "每页最多查询 20 个应用");
+        long pageNum = appQueryRequest.getPageNum();
+        // 只查询精选的应用
+        appQueryRequest.setPriority(AppConstant.GOOD_APP_PRIORITY);
+        QueryWrapper queryWrapper = appService.getQueryWrapper(appQueryRequest);
+        // 分页查询
+        Page<App> appPage = appService.page(Page.of(pageNum, pageSize), queryWrapper);
+        // 数据封装
+        Page<AppVO> appVOPage = new Page<>(pageNum, pageSize, appPage.getTotalRow());
+        List<AppVO> appVOList = appService.getAppVOList(appPage.getRecords());
+        appVOPage.setRecords(appVOList);
+        return ResultUtils.success(appVOPage);
+    }
+
 
     @GetMapping(value = "/chat/gen/code", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public Flux<ServerSentEvent<String>> chatToGenCode(@RequestParam Long appId,
