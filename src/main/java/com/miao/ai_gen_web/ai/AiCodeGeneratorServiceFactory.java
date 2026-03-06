@@ -2,6 +2,7 @@ package com.miao.ai_gen_web.ai;
 
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
+import com.miao.ai_gen_web.ai.guardrail.PromptSafetyInputGuardrail;
 import com.miao.ai_gen_web.ai.tools.*;
 import com.miao.ai_gen_web.exception.BusinessException;
 import com.miao.ai_gen_web.exception.ErrorCode;
@@ -92,6 +93,7 @@ public class AiCodeGeneratorServiceFactory {
                     .tools(
                             toolManager.getAllTools()
                     )
+                    .inputGuardrails(new PromptSafetyInputGuardrail())
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                     ))// 出现幻觉的时候，工具不存在的情况时，做什么
