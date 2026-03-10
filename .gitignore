@@ -34,6 +34,7 @@ build/
 
 ### 隐私数据 ###
 application-local.yaml
+application-prod.yaml
 
 ### 生成的数据 ###
 **/tmp/
