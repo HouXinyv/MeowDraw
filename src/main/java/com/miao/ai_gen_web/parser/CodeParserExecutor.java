@@ -8,7 +8,7 @@ import com.miao.ai_gen_web.model.enums.CodeGenTypeEnum;
  * 代码解析执行器
  * 根据代码生成类型执行相应的解析逻辑
  *
- * @author yupi
+ * @author miao
  */
 public class CodeParserExecutor {
 

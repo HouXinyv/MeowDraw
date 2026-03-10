@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * HTML 单文件代码解析器
  *
- * @author yupi
+ * @author miao
  */
 public class HtmlCodeParser implements CodeParser<HtmlCodeResult> {
 

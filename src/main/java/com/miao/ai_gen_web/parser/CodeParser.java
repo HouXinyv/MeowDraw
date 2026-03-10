@@ -3,7 +3,7 @@ package com.miao.ai_gen_web.parser;
 /**
  * 代码解析器策略接口
  * 
- * @author yupi
+ * @author miao
  */
 public interface CodeParser<T> {
 

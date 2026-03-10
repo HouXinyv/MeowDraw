@@ -25,6 +25,8 @@ public class CodeCMConfig {
 
     private Double temperature;
 
+    private Integer maxRetries;
+
     private boolean logRequests;
 
     private boolean logResponses;
@@ -41,6 +43,7 @@ public class CodeCMConfig {
                 .temperature(temperature)
                 .logRequests(logRequests)
                 .logResponses(logResponses)
+                .maxRetries(maxRetries)
                 .build();
     }
 }

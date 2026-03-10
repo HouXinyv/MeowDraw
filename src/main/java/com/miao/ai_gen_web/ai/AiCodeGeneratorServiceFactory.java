@@ -3,6 +3,7 @@ package com.miao.ai_gen_web.ai;
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.miao.ai_gen_web.ai.guardrail.PromptSafetyInputGuardrail;
+import com.miao.ai_gen_web.ai.guardrail.RetryOutputGuardrail;
 import com.miao.ai_gen_web.ai.tools.*;
 import com.miao.ai_gen_web.exception.BusinessException;
 import com.miao.ai_gen_web.exception.ErrorCode;
@@ -94,6 +95,8 @@ public class AiCodeGeneratorServiceFactory {
                             toolManager.getAllTools()
                     )
                     .inputGuardrails(new PromptSafetyInputGuardrail())
+                    .outputGuardrails(new RetryOutputGuardrail())
+                    .maxSequentialToolsInvocations(35)
                     .hallucinatedToolNameStrategy(toolExecutionRequest -> ToolExecutionResultMessage.from(
                             toolExecutionRequest, "Error: there is no tool called " + toolExecutionRequest.name()
                     ))// 出现幻觉的时候，工具不存在的情况时，做什么
@@ -103,11 +106,12 @@ public class AiCodeGeneratorServiceFactory {
 
             // HTML 和多文件生成使用默认模型
             case HTML, MULTI_FILE -> {
-                ChatModel codeCM = SpringContextUtil.getBean("codeCMPrototype",ChatModel.class);
                 StreamingChatModel codeSCM = SpringContextUtil.getBean("codeSCMPrototype",StreamingChatModel.class);
                 yield AiServices.builder(AiCodeGeneratorService.class)
-                    .chatModel(codeCM)
                     .streamingChatModel(codeSCM)
+                    .inputGuardrails(new PromptSafetyInputGuardrail())
+                    .outputGuardrails(new RetryOutputGuardrail())
+                    .maxSequentialToolsInvocations(15)
                     .chatMemoryProvider(memoryId -> chatMemory)
                     .build();
             }
