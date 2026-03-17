@@ -1,7 +1,6 @@
 package com.miao.ai_gen_web.model.enums;
 
 import cn.hutool.core.util.ObjUtil;
-import com.miao.ai_gen_web.ai.AiCodeGeneratorService;
 import lombok.Getter;
 
 import java.util.function.Function;
