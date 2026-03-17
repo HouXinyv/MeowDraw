@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: meow-draw-app
+  # session
+  session:
+    store-type: redis
+    timeout: 2592000
+  profiles:
+    active: local
+server:
+  port: 8125
+  servlet:
+    context-path: /api
+    # 30 days expire
+    session:
+      cookie:
+        max-age: 2592000
+# springdoc-openapi
+springdoc:
+  group-configs:
+    - group: 'default'
+      packages-to-scan: com.miao.ai_gen_web.controller
+# knife4j
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+
