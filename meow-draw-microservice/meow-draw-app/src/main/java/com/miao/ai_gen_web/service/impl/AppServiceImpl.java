@@ -16,6 +16,8 @@ import com.miao.ai_gen_web.entity.User;
 import com.miao.ai_gen_web.exception.BusinessException;
 import com.miao.ai_gen_web.exception.ErrorCode;
 import com.miao.ai_gen_web.exception.ThrowUtils;
+import com.miao.ai_gen_web.innerservice.InnerScreenshotService;
+import com.miao.ai_gen_web.innerservice.InnerUserService;
 import com.miao.ai_gen_web.mapper.AppMapper;
 import com.miao.ai_gen_web.model.dto.app.AppAddRequest;
 import com.miao.ai_gen_web.model.dto.app.AppQueryRequest;
@@ -23,17 +25,19 @@ import com.miao.ai_gen_web.model.enums.ChatHistoryMessageTypeEnum;
 import com.miao.ai_gen_web.model.enums.CodeGenTypeEnum;
 import com.miao.ai_gen_web.model.vo.AppVO;
 import com.miao.ai_gen_web.model.vo.UserVO;
-import com.miao.ai_gen_web.monitor.MonitorContext;
-import com.miao.ai_gen_web.monitor.MonitorContextHolder;
+//import com.miao.ai_gen_web.monitor.MonitorContext;
+//import com.miao.ai_gen_web.monitor.MonitorContextHolder;
 import com.miao.ai_gen_web.service.AppService;
 import com.miao.ai_gen_web.service.ChatHistoryService;
-import com.miao.ai_gen_web.service.ScreenshotService;
-import com.miao.ai_gen_web.service.UserService;
+//import com.miao.ai_gen_web.service.ScreenshotService;
+//import com.miao.ai_gen_web.service.UserService;
 import com.mybatisflex.core.query.QueryWrapper;
 import com.mybatisflex.spring.service.impl.ServiceImpl;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
@@ -54,8 +58,9 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App>  implements AppService{
-    @Autowired
-    private UserService userService;
+    @Resource
+    @Lazy
+    private InnerUserService userService;
     @Autowired
     private AiCodeGeneratorFacade aiCodeGeneratorFacade;
     @Autowired
@@ -64,8 +69,9 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>  implements AppS
     private StreamHandlerExecutor streamHandlerExecutor;
     @Autowired
     private VueProjectBuilder vueProjectBuilder;
-    @Autowired
-    private ScreenshotService screenshotService;
+    @Resource
+    @Lazy
+    private InnerScreenshotService screenshotService;
     @Autowired
     private AiCodeGenTypeRoutingServiceFactory aiCodeGenTypeRoutingServiceFactory;
 
@@ -167,10 +173,10 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>  implements AppS
         // 7. 调用 AI 生成代码（流式）
         Flux<String> codeStream = aiCodeGeneratorFacade.generateAndSaveCodeStream(message, codeGenTypeEnum, appId);
         // 8. 收集 AI 响应内容并在完成后记录到对话历史
-        return streamHandlerExecutor.doExecute(codeStream, chatHistoryService, appId, loginUser, codeGenTypeEnum)
-                .doFinally(signalType -> {
-                    MonitorContextHolder.clearContext();
-                });
+        return streamHandlerExecutor.doExecute(codeStream, chatHistoryService, appId, loginUser, codeGenTypeEnum);
+//                .doFinally(signalType -> {
+//                    MonitorContextHolder.clearContext();
+//                });
     }
 
     /**

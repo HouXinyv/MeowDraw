@@ -3,8 +3,8 @@ package com.miao.ai_gen_web.ratelimiter.aspect;
 import com.miao.ai_gen_web.entity.User;
 import com.miao.ai_gen_web.exception.BusinessException;
 import com.miao.ai_gen_web.exception.ErrorCode;
+import com.miao.ai_gen_web.innerservice.InnerUserService;
 import com.miao.ai_gen_web.ratelimiter.annotation.RateLimit;
-import com.miao.ai_gen_web.service.UserService;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +16,7 @@ import org.redisson.api.RRateLimiter;
 import org.redisson.api.RateIntervalUnit;
 import org.redisson.api.RateType;
 import org.redisson.api.RedissonClient;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -32,8 +33,10 @@ import java.time.Duration;
 public class RateLimitAspect {
     @Resource
     private RedissonClient redissonClient; // 注入 Redisson 客户端，用于操作 Redis
+
     @Resource
-    private UserService userService; // 用于获取当前登录用户信息
+    @Lazy
+    private InnerUserService userService; // 用于获取当前登录用户信息
 
     /**
      * 在方法执行之前进行限流检查
@@ -95,7 +98,7 @@ public class RateLimitAspect {
                     ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
                     if (attributes != null) {
                         HttpServletRequest request = attributes.getRequest();
-                        User loginUser = userService.getLoginUser(request); // 获取当前登录人
+                        User loginUser = InnerUserService.getLoginUser(request); // 获取当前登录人
                         keyBuilder.append("user:").append(loginUser.getId());
                     } else {
                         // 拿不到请求上下文（比如异步线程调用），降级为 IP 限流
