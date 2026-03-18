@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: meow-draw-screenshot
+  active:
+    local
+server:
+  port: 8127
+  servlet:
+    context-path: /api
+
+
