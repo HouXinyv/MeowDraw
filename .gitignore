@@ -39,3 +39,11 @@ application-prod.yaml
 ### 生成的数据 ###
 **/tmp/
 /src/test/java/com/miao/learning/
+
+### 前端项目 ###
+node_modules/
+.DS_Store
+*.log
+meow-draw-frontend/dist/
+meow-draw-frontend/coverage/
+meow-draw-frontend/.local
