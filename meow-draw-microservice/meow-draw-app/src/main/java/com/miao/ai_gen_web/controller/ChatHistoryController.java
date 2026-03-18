@@ -8,9 +8,10 @@ import com.miao.ai_gen_web.entity.ChatHistory;
 import com.miao.ai_gen_web.entity.User;
 import com.miao.ai_gen_web.exception.ErrorCode;
 import com.miao.ai_gen_web.exception.ThrowUtils;
+import com.miao.ai_gen_web.innerservice.InnerUserService;
 import com.miao.ai_gen_web.model.dto.chathistory.ChatHistoryQueryRequest;
 import com.miao.ai_gen_web.service.ChatHistoryService;
-import com.miao.ai_gen_web.service.UserService;
+//import com.miao.ai_gen_web.service.UserService;
 import com.mybatisflex.core.paginate.Page;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,8 +32,6 @@ public class ChatHistoryController {
     @Autowired
     private ChatHistoryService chatHistoryService;
 
-    @Autowired
-    private UserService userService;
 
 
     /**
@@ -49,7 +48,7 @@ public class ChatHistoryController {
                                                               @RequestParam(defaultValue = "10") int pageSize,
                                                               @RequestParam(required = false) LocalDateTime lastCreateTime,
                                                               HttpServletRequest request) {
-        User loginUser = userService.getLoginUser(request);
+        User loginUser = InnerUserService.getLoginUser(request);
         Page<ChatHistory> result = chatHistoryService.listAppChatHistoryByPage(appId, pageSize, lastCreateTime, loginUser);
         return ResultUtils.success(result);
     }
