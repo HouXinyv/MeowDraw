@@ -1,8 +1,9 @@
 spring:
   application:
     name: meow-draw-screenshot
-  active:
-    local
+  profiles:
+    active:
+      local
 server:
   port: 8127
   servlet:

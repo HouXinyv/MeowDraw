@@ -33,6 +33,11 @@
             <artifactId>meow-draw-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.miao</groupId>
+            <artifactId>meow-draw-client</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
         <!-- Dubbo -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
