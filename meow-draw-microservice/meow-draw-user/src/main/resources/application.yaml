@@ -36,3 +36,17 @@ knife4j:
   enable: true
   setting:
     language: zh_cn
+
+# Dubbo
+dubbo:
+  registry:
+    address: nacos://127.0.0.1:8848
+    register-mode: instance
+  protocol:
+    name: tri  # 这代表 Triple 协议。  它是 Dubbo 3.0 的主力协议，基于 gRPC (HTTP/2) 编写。
+    port: 50051
+  consumer:
+    timeout: 60000
+  provider:
+    timeout: 60000
+
