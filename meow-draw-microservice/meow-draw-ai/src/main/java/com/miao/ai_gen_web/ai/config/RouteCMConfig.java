@@ -1,6 +1,6 @@
 package com.miao.ai_gen_web.ai.config;
 
-import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
+//import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import jakarta.annotation.Resource;
@@ -25,8 +25,8 @@ public class RouteCMConfig {
 
     private String modelName;
 
-    @Resource
-    private AiModelMonitorListener aiModelMonitorListener;
+//    @Resource
+//    private AiModelMonitorListener aiModelMonitorListener;
 
     @Bean
     @Scope("prototype")
@@ -39,7 +39,7 @@ public class RouteCMConfig {
                 .logResponses(true)
                 .maxTokens(8192)
                 .timeout(timeout)
-                .listeners(List.of(aiModelMonitorListener))
+//                .listeners(List.of(aiModelMonitorListener))
                 .build();
     }
 }

@@ -1,6 +1,6 @@
 package com.miao.ai_gen_web.ai.config;
 
-import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
+//import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
 import dev.langchain4j.model.chat.ChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import jakarta.annotation.Resource;
@@ -33,8 +33,8 @@ public class CodeCMConfig {
 
     private boolean logResponses;
 
-    @Resource
-    private AiModelMonitorListener aiModelMonitorListener;
+//    @Resource
+//    private AiModelMonitorListener aiModelMonitorListener;
 
     @Bean
     // @Bean 的名字就是方法名, Bean 类型就是方法返回类型（以及它的实现类类型也能按实现查到
@@ -49,7 +49,7 @@ public class CodeCMConfig {
                 .logRequests(logRequests)
                 .logResponses(logResponses)
                 .maxRetries(maxRetries)
-                .listeners(List.of(aiModelMonitorListener))
+//                .listeners(List.of(aiModelMonitorListener))
                 .build();
     }
 }

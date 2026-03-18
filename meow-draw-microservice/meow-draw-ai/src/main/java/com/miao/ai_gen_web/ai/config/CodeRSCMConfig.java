@@ -1,6 +1,6 @@
 package com.miao.ai_gen_web.ai.config;
 
-import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
+//import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import jakarta.annotation.Resource;
@@ -23,8 +23,8 @@ public class CodeRSCMConfig {
 
     private Duration timeout;
 
-    @Resource
-    private AiModelMonitorListener aiModelMonitorListener;
+//    @Resource
+//    private AiModelMonitorListener aiModelMonitorListener;
 
     @Bean
     @Scope("prototype")
@@ -41,7 +41,7 @@ public class CodeRSCMConfig {
                 .logRequests(true)
                 .logResponses(true)
                 .timeout(timeout)
-                .listeners(List.of(aiModelMonitorListener))
+//                .listeners(List.of(aiModelMonitorListener))
                 .build();
     }
 

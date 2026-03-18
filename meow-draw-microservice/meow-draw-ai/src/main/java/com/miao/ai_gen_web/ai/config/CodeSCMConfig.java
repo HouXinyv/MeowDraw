@@ -1,6 +1,6 @@
 package com.miao.ai_gen_web.ai.config;
 
-import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
+//import com.miao.ai_gen_web.monitor.AiModelMonitorListener;
 import dev.langchain4j.model.chat.StreamingChatModel;
 import dev.langchain4j.model.openai.OpenAiStreamingChatModel;
 import jakarta.annotation.Resource;
@@ -31,8 +31,8 @@ public class CodeSCMConfig {
 
     private boolean logResponses;
 
-    @Resource
-    private AiModelMonitorListener aiModelMonitorListener;
+//    @Resource
+//    private AiModelMonitorListener aiModelMonitorListener;
 
     @Bean
     @Scope("prototype")
@@ -45,7 +45,7 @@ public class CodeSCMConfig {
                 .temperature(temperature)
                 .logRequests(logRequests)
                 .logResponses(logResponses)
-                .listeners(List.of(aiModelMonitorListener))
+//                .listeners(List.of(aiModelMonitorListener))
                 .build();
     }
 }

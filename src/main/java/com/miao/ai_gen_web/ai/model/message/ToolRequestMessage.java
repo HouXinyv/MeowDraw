@@ -1,6 +1,6 @@
 package com.miao.ai_gen_web.ai.model.message;
 
-import dev.langchain4j.agent.tool.ToolExecutionRequest;
+
 import dev.langchain4j.model.chat.response.PartialToolCall;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
