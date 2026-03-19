@@ -75,7 +75,7 @@ public class AppServiceImpl extends ServiceImpl<AppMapper, App>  implements AppS
     @Autowired
     private AiCodeGenTypeRoutingServiceFactory aiCodeGenTypeRoutingServiceFactory;
 
-    @Value("${code.deploy-host:http://localhost")
+    @Value("${code.deploy-host:http://localhost}")
     private String deployHost;
 
     @Override
