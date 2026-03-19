@@ -1,8 +1,8 @@
-package com.miao.ai_gen_web.common;
+package com.miao.ai_gen_web.exception;
 
 import cn.hutool.json.JSONUtil;
-import com.miao.ai_gen_web.exception.BusinessException;
-import com.miao.ai_gen_web.exception.ErrorCode;
+import com.miao.ai_gen_web.common.BaseResponse;
+import com.miao.ai_gen_web.common.ResultUtils;
 import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

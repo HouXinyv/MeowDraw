@@ -30,3 +30,6 @@ management:
   endpoint:
     health:
       show-details: always
+logging:
+  charset:
+    console: UTF-8
